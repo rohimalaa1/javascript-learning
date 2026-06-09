@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import T from "../data/translations";
 import practicalData from "../data/practicalData";
 
@@ -12,9 +12,12 @@ function TodoDemo() {
   const [visible, setVisible] = useState([]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     todos.forEach((_, i) => {
       setTimeout(() => setVisible(v => [...v, i]), i * 120);
     });
+    // Run only on mount; todos intentionally omitted
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const add = () => {
@@ -147,9 +150,9 @@ function PaletteDemo() {
   const [copied, setCopied] = useState(null);
 
   const randomHex = () => "#" + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, "0");
-  const generate = () => setColors(Array.from({length:10}, randomHex));
+  const generate = useCallback(() => setColors(Array.from({length:10}, randomHex)), []);
 
-  useEffect(() => { generate(); }, []);
+  useEffect(() => { generate(); }, [generate]);
 
   const copy = (c) => {
     navigator.clipboard?.writeText(c);
@@ -359,7 +362,6 @@ function DetailModal({ q, lang, onClose }) {
 
 // ── Main Page ─────────────────────────────────────────────────────
 export default function PracticalPage({ lang }) {
-  const T2 = T[lang];
   const l = lang === "ar";
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState("all");
