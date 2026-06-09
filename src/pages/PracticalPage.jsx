@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import T from "../data/translations";
 import practicalData from "../data/practicalData";
 
 // ── Animated Demos ────────────────────────────────────────────────
@@ -12,12 +11,10 @@ function TodoDemo() {
   const [visible, setVisible] = useState([]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    todos.forEach((_, i) => {
+    const initialCount = 2;
+    Array.from({ length: initialCount }, (_, i) => {
       setTimeout(() => setVisible(v => [...v, i]), i * 120);
     });
-    // Run only on mount; todos intentionally omitted
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const add = () => {
