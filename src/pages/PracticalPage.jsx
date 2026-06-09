@@ -12,7 +12,7 @@ function TodoDemo() {
 
   useEffect(() => {
     const initialCount = 2;
-    Array.from({ length: initialCount }, (_, i) => {
+    Array.from({ length: initialCount }, (_, i) => i).forEach(i => {
       setTimeout(() => setVisible(v => [...v, i]), i * 120);
     });
   }, []);
